@@ -13,16 +13,16 @@ After cloning the project, you'll need to add a .env file in the backend folder 
 ```.env
 #Database variables
 #================================#
-DATABASE_URL = your database url, I made the project using mariadb so, if you end up using another database, you might need to change the code on the models files
+DATABASE_URL = None #your database url, I made the project using mariadb so, if you end up using another database, you might need to change the code on the models files
 #================================#
 
 #Email service variables
 #================================#
 PORT = 465
 SMTP_SERVER = smtp.gmail.com
-SENDER_EMAIL = the email wich worganizer will use to send emails. It's interesting to create a new one for this. See more on: https://realpython.com/python-send-email/
-EMAIL_PASS = the password for the email defined above
-URL_LINK = your front-end url
+SENDER_EMAIL = None #the email wich worganizer will use to send emails. It's interesting to create a new one for this. See more on: https://realpython.com/python-send-email/
+EMAIL_PASS = None #the password for the email defined above
+URL_LINK = None #your front-end url
 #================================#
 ```
 Now, create a python virtual environment, also in the backend folder:
