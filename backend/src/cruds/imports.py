@@ -1,7 +1,6 @@
-#Imports file created in order to have a cleaner code
-#================================#
+import hashlib
+from fastapi import HTTPException
+from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import update
-from datetime import datetime
-import hashlib
-#================================#
+from src.helpers import exceptions as exc

@@ -1,76 +1,93 @@
 from .imports import *
-from src.models import users as user_model
-from src.schemas import users as user_schema
+from src.models import users as u_model
+from src.schemas import users as u_schemas
 
 
-#Functions to get user info from the database
-#================================#
 def get_user_by_id(db: Session, user_id: int):
-    return db.query(user_model.Users).filter(user_model.Users.id == user_id).first()
+    try:
+        user = db.query(u_model.Users).filter(u_model.Users.id == user_id).first()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
+    if not user:
+        raise HTTPException(status_code=404, detail="There isn't an user with this ID!")
+    return user
 
 def get_user_by_email(db: Session, email: str):
-    return db.query(user_model.Users).filter(user_model.Users.email == email).first()
+    try:
+        user = db.query(u_model.Users).filter(u_model.Users.email == email).first()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
+    return user
 
 def get_user_email_by_token(db: Session, token: str):
-    return db.query(user_model.Users).filter(user_model.Users.token == token).first()    
-#================================#
+    try:
+        user = db.query(u_model.Users).filter(u_model.Users.token == token).first()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid token!")
+    return user
 
-#User register, update and delete functions
-#================================#
-def register_user(db: Session, user: user_schema.UserCreate):
+def register_user(db: Session, user: u_schemas.UserCreate):
     hashed_password = hashlib.sha256(user.password.encode()).hexdigest()
     user_dict = user.dict()
     del user_dict['password']
-    del user_dict['status']
-    del user_dict['message']
     user_dict['created_at'] = datetime.today()
     user_dict['updated_at'] = datetime.today()
-    db_user = user_model.Users(**user_dict, encrypted_password = hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    db_user = u_model.Users(**user_dict, encrypted_password = hashed_password)
+    try:
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
 
-def update_user(db: Session, user: user_schema.UserUpdate, user_id: int):
-    db_user = update(user_model.Users)\
-        .where(user_model.Users.id == user_id)\
-            .values(**user.dict(exclude_unset=True))
-    db.execute(db_user)
-    db.commit()
+def update_user(db: Session, user: u_schemas.UserUpdate, user_id: int):
+    db_user = update(u_model.Users)\
+        .where(u_model.Users.id == user_id)\
+            .values(**user.dict(exclude_unset=True), updated_at = datetime.today())
+    try:
+        db.execute(db_user)
+        db.commit()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
 
 def delete_user(db: Session, user_id: int):
-    db_user = db.query(user_model.Users)\
-        .filter(user_model.Users.id == user_id)\
+    get_user_by_id(db, user_id)
+    db_user = db.query(u_model.Users)\
+        .filter(u_model.Users.id == user_id)\
             .first()
-    db.delete(db_user)
-    db.commit()
-#================================#
+    try:
+        db.delete(db_user)
+        db.commit()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
 
-#User authentication and password reset functions
-#================================#
-def auth_user(db: Session, user_login: user_schema.UserLogin):
+def auth_user(db: Session, user_login: u_schemas.UserLogin):
     hashed_password = hashlib.sha256(user_login.password.encode()).hexdigest()
     db_user = get_user_by_email(db, email=user_login.email)
-    if db_user and db_user.encrypted_password == hashed_password:
-        return db_user
-        
-    return False
-
-def insert_user_token(db:Session, user: user_schema.UserResetPassEmail, token: user_schema.UserResetPassToken):
-    db_user = update(user_model.Users)\
-        .where(user_model.Users.email == user.email)\
-            .values(token = token)
-    db_user = db.execute(db_user)
-    db.commit()
+    if not db_user or db_user.encrypted_password != hashed_password:
+        raise HTTPException(status_code=401, detail="Invalid login!")
     return db_user
 
-def user_reset_password(db: Session, user: user_schema.UserResetPass, token: user_schema.UserResetPassToken):
-    db_user = get_user_by_email(db, user.email)
-    if db_user and db_user.token == token.token and user.new_password:
-        new_pass_user = update(user_model.Users)\
-        .where(user_model.Users.token == token.token)\
-        .values(encrypted_password=hashlib.sha256(user.new_password.encode()).hexdigest(), token=None)
-        db.execute(new_pass_user)
+def insert_user_token(db: Session, user: u_schemas.UserResetPassEmail):
+    token = hashlib.sha256(str(datetime.today()).encode()).hexdigest()
+    db_user = update(u_model.Users)\
+        .where(u_model.Users.email == user.email)\
+            .values(token = token)
+    try:
+        db_user = db.execute(db_user)
         db.commit()
         return db_user
-#================================#
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION
+
+def user_reset_password(db: Session, user: u_schemas.UserResetPass, token: u_schemas.UserResetPassToken):
+    new_pass_user = update(u_model.Users)\
+        .where(u_model.Users.token == token.token)\
+            .values(encrypted_password=hashlib.sha256(user.new_password.encode()).hexdigest(), token=None)
+    try:
+        db.execute(new_pass_user)
+        db.commit()
+    except:
+        raise exc.INTERNAL_ERROR_EXCEPTION

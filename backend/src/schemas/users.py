@@ -1,11 +1,8 @@
 from pydantic.networks import EmailStr
 from .imports import *
-from src.schemas.status import StatusModel
 
 
-#User resgistration models
-#================================#
-class UserBase(StatusModel):
+class UserBase(BaseModel):
     username: str
     email: EmailStr
 
@@ -19,39 +16,27 @@ class User(UserBase):
 
     class Config:
 	    orm_mode=True
-#================================#
 
-#User update model
-#================================#
-class UserUpdate(StatusModel):
+class UserUpdate(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
-    updated_at: datetime = datetime.today()
-#================================#
 
-#User auth
-#================================#
-class UserLogin(StatusModel):
+class UserLogin(BaseModel):
     email: Optional[EmailStr]
     password: Optional[str]
 
     class Config:
         orm_mode=True
-#================================#
 
-#User reset password models
-#================================#
-class UserByToken(StatusModel):
+class UserByTokenResponse(BaseModel):
     email: Optional[EmailStr]
 
-class UserResetPassEmail(StatusModel):
-    username: str
+class UserResetPassEmail(BaseModel):
     email: EmailStr
 
-class UserResetPass(StatusModel):
+class UserResetPass(BaseModel):
     email: EmailStr
     new_password: str
 
-class UserResetPassToken(StatusModel):
+class UserResetPassToken(BaseModel):
     token: str
-#================================#

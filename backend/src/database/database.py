@@ -1,10 +1,7 @@
 from .imports import *
 
 
-#Database settings as in the FastAPI docs
-#================================#
 SQLALCHEMY_DATABASE_URL = os.environ["DATABASE_URL"]
-
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, 
     pool_recycle=3600,
@@ -12,4 +9,3 @@ engine = create_engine(
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-#================================#

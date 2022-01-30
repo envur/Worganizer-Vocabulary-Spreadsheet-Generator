@@ -1,8 +1,6 @@
 from .imports import *
 
 
-#Users' table configuration
-#================================#
 class Users(Base):
     __tablename__ = 'users'
 
@@ -13,4 +11,3 @@ class Users(Base):
     token = Column(String(255), unique=True, nullable=True)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
-#================================#
