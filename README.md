@@ -1,10 +1,6 @@
 # Worganizer: The Ultimate Vocabulary Organizer For Language Learning (Maybe)
 
-I love learning languages, it's a great mind expanding hobby that allows anyone to learn a lot of other things besides the languages themselves. Well, since the study method that I use requires to learn a lot of the most used words in the daily basis, I end up needing to organize all of my new acquired vocabulary, usually on a .xlsx file, wich is kind of a pain to me.
-
-I truly love spreadsheets and everything you can do with them, but a simple spreadsheet with a lot of words and translations is pretty boring to make IMO.
-
-So, why not create a software to automatize this and add into it a lot of not so essential features for the sake of practice and learning new things?
+This is a very specific software for a very specific problem I have when it comes to a hobby of mine, which is language learning. It's just an overcomplicated .xlsx generator for all the new words I learn.
 
 ## Installation & Setup
 
@@ -66,7 +62,7 @@ alembic upgrade head
 
 ## Usage
 
-I will update this when the software becomes truly functional, for now, you can play with the users CRUD on the back-end at http://localhost:8080/docs.
+I will update this when the software becomes truly functional, for now, you can only play with the users CRUD on the back-end at http://localhost:8080/docs.
 
 
 ## Contributing
