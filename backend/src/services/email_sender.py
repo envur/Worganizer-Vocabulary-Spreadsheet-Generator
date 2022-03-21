@@ -1,4 +1,4 @@
-from.imports import *
+from .imports import *
 from ..schemas.users import UserResetPassEmail
 from .email_message import html_message
 import hashlib
@@ -22,4 +22,4 @@ def email_sender(user: UserResetPassEmail, username=str, token=str):
             server.sendmail(sender_email, user.email, message.as_string())
             server.quit()
     except:
-        raise exc.INTERNAL_ERROR_EXCEPTION
+        raise exc.EMAIL_SENDING_FAILED

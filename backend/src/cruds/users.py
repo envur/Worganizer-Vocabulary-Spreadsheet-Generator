@@ -9,7 +9,7 @@ def get_user_by_id(db: Session, user_id: int):
     except:
         raise exc.INTERNAL_ERROR_EXCEPTION
     if not user:
-        raise HTTPException(status_code=404, detail="There isn't an user with this ID!")
+        raise exc.USER_ID_NOT_FOUND
     return user
 
 def get_user_by_email(db: Session, email: str):
@@ -25,7 +25,7 @@ def get_user_email_by_token(db: Session, token: str):
     except:
         raise exc.INTERNAL_ERROR_EXCEPTION
     if not user:
-        raise HTTPException(status_code=400, detail="Invalid token!")
+        raise exc.INVALID_TOKEN
     return user
 
 def register_user(db: Session, user: u_schemas.UserCreate):
@@ -43,6 +43,7 @@ def register_user(db: Session, user: u_schemas.UserCreate):
         raise exc.INTERNAL_ERROR_EXCEPTION
 
 def update_user(db: Session, user: u_schemas.UserUpdate, user_id: int):
+    get_user_by_id(db, user_id)
     db_user = update(u_model.Users)\
         .where(u_model.Users.id == user_id)\
             .values(**user.dict(exclude_unset=True), updated_at = datetime.today())
@@ -67,7 +68,7 @@ def auth_user(db: Session, user_login: u_schemas.UserLogin):
     hashed_password = hashlib.sha256(user_login.password.encode()).hexdigest()
     db_user = get_user_by_email(db, email=user_login.email)
     if not db_user or db_user.encrypted_password != hashed_password:
-        raise HTTPException(status_code=401, detail="Invalid login!")
+        raise exc.INVALID_CREDENTIALS
     return db_user
 
 def insert_user_token(db: Session, user: u_schemas.UserResetPassEmail):
