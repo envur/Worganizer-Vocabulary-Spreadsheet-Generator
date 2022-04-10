@@ -1,4 +1,5 @@
 from .imports import *
+from . import words
 
 
 class Users(Base):
@@ -12,4 +13,4 @@ class Users(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 
-    words = relationship("Words", back_populates="users")
+    words = relationship("Words")
