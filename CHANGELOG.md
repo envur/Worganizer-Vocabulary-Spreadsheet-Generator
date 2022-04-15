@@ -6,9 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-   - .xlsx generation with the words that the user will register
    - JWT authentication flow
    - The front-end
+
+## [0.0.4] - 2022-04-15
+### Changed
+   - Reset password message translated to english
+
+### Added
+   - .xlsx files generation with the words registered byt the user
+   - CRUD of words
 
 ## [0.0.3] - 2022-04-09
 ### Changed
