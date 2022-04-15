@@ -31,8 +31,8 @@ def write_data_in_file(words_list, worksheet):
             col += 1
         row += 1
 
-def xlsx_generator(words):
-    workbook = xlsxwriter.Workbook('/tmp/Words.xlsx')
+def xlsx_generator(words, filename):
+    workbook = xlsxwriter.Workbook(f'/tmp/{filename}.xlsx')
     worksheet = workbook.add_worksheet()
     
     header = workbook.add_format({'bold': True, 'bg_color': '#9fedb4', 'align': 'center', 'valign': 'middle', 'border': True})
@@ -41,7 +41,7 @@ def xlsx_generator(words):
     words_list = create_word_list(words)
     keys = get_keys(words_list[0])
     worksheet.set_column(0, 4, 30)
-    
+
     write_keys_in_file(keys, worksheet, header)
     write_data_in_file(words_list, worksheet)
 

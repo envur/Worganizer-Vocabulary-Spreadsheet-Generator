@@ -29,6 +29,9 @@ class WordsListResponse(BaseModel):
     words: List[Word]
     total_words: int
 
+class FileName(BaseModel):
+    filename: str
+
 class WordFilter(BaseModel):
     user_id: int
     id: Optional[int] = None

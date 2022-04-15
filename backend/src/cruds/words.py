@@ -109,6 +109,6 @@ def delete_word(db: Session, word_id: int):
     except:
         raise exc.INTERNAL_ERROR_EXCEPTION
 
-def generate_words_xlsx(db: Session, search_filter: w_schemas.WordFilter):
+def generate_words_xlsx(db: Session, search_filter: w_schemas.WordFilter, filename: str):
     words = get_words(db, search_filter)
-    xlsx_generator.xlsx_generator(words[0])
+    xlsx_generator.xlsx_generator(words[0], filename)

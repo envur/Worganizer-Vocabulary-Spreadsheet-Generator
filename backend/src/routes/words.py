@@ -1,4 +1,5 @@
 from .imports import *
+from fastapi.responses import FileResponse
 from src.cruds import words as w_cruds
 from src.schemas import words as w_schemas
 from src.schemas import status as s_schemas
@@ -10,8 +11,9 @@ def list_words(search_filter: w_schemas.WordFilter = Body(..., embed=True), db: 
     return w_schemas.WordsListResponse(words=words, total_words=total_words)
 
 @app.post("/words/xlsx", tags=["Words"])
-def generate_words_xlsx_file(search_filter: w_schemas.WordFilter = Body(..., embed=True), db: Session = Depends(get_db)):
-    w_cruds.generate_words_xlsx(db, search_filter)
+def generate_words_xlsx_file(filename: w_schemas.FileName = Body(..., embed=True), search_filter: w_schemas.WordFilter = Body(..., embed=True), db: Session = Depends(get_db)):
+    w_cruds.generate_words_xlsx(db, search_filter, filename.filename)
+    return FileResponse(f"/tmp/{filename.filename}.xlsx", media_type='application/octet-stream', filename=f"{filename.filename}.xlsx")
 
 @app.post("/word/register", tags=["Words"], response_model=s_schemas.StatusModel)
 def register_word(user_id: int, word: w_schemas.WordBase = Body(..., embed=True), db: Session = Depends(get_db)):
