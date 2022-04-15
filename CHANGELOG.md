@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - Reset password message translated to english
 
 ### Added
-   - .xlsx files generation with the words registered byt the user
+   - .xlsx files generation with the words registered by the user
    - CRUD of words
 
 ## [0.0.3] - 2022-04-09

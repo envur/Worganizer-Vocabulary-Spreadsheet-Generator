@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # FastAPI instance
 app = FastAPI(
-    version="0.0.3",
+    version="0.0.4",
     title="Worganizer",
     description="The Ultimate Vocabulary Organizer For Language Learning"
 )
