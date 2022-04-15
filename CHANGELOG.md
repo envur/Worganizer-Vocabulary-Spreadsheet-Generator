@@ -7,12 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
    - .xlsx generation with the words that the user will register
+   - JWT authentication flow
+   - The front-end
+
+## [0.0.3] - 2022-04-09
+### Changed
+   - Moved .gitignore to root folder
+   - Small changes on README.md
+
+### Added
+   - Words CRUD (schemas, crud functions and routes)
 
 ## [0.0.2] - 2022-03-20
 ### Changed
    - Moved all exceptions to exceptions.py file
+   - Created relationship on models/users.py with models/words.py because of foreign key
 
 ### Added
+   - Words table
    - Argument 'echo' at the create_engine function in database.py to keep track of the database queries on the server log
 
 ## [0.0.1] - 2021-10-30

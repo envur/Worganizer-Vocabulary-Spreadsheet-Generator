@@ -4,7 +4,7 @@ from .email_message import html_message
 import hashlib
 
 
-def email_sender(user: UserResetPassEmail, username=str, token=str):
+def email_sender(user: UserResetPassEmail, username: str, token: str):
     message_html = html_message("reset", os.environ["URL_LINK"], username, token)
     port = os.environ["PORT"]
     sender_email = os.environ["SENDER_EMAIL"]

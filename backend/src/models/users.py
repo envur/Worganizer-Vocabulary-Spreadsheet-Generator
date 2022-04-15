@@ -1,4 +1,5 @@
 from .imports import *
+from . import words
 
 
 class Users(Base):
@@ -11,3 +12,5 @@ class Users(Base):
     token = Column(String(255), unique=True, nullable=True)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
+
+    words = relationship("Words")

@@ -3,7 +3,7 @@ from src.cruds import users as u_cruds
 from src.schemas import users as u_schemas
 from src.schemas import status as s_schemas
 
-
+# TODO: Change StatusModel for a response that returns the object data
 @app.get("/user/token/{token}", tags=["Users"], response_model=u_schemas.UserByTokenResponse)
 def get_user_by_token(token: str, db: Session = Depends(get_db)):
     db_user = u_cruds.get_user_email_by_token(db, token)

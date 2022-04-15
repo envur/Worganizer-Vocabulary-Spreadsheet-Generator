@@ -7,12 +7,12 @@ This is a very specific software for a very specific problem I have when it come
 After cloning the project, you'll need to add a .env file in the backend folder with the following variables:
 
 ```.env
-#Database variables
+# Database variables
 #================================#
 DATABASE_URL = None #your database url, I made the project using mariadb so, if you end up using another database, you might need to change the code on the models files
 #================================#
 
-#Email service variables
+# Email service variables
 #================================#
 PORT = 465
 SMTP_SERVER = smtp.gmail.com
