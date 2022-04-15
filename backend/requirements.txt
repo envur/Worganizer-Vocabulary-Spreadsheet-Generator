@@ -13,6 +13,9 @@ importlib-resources==5.4.0
 Mako==1.1.5
 mariadb==1.0.8
 MarkupSafe==2.0.1
+mysql-connector-python==8.0.28
+mysqlclient==2.1.0
+protobuf==3.20.0
 pydantic==1.8.2
 python-dotenv==0.19.1
 sniffio==1.2.0
@@ -20,4 +23,5 @@ SQLAlchemy==1.4.26
 starlette==0.16.0
 typing-extensions==3.10.0.2
 uvicorn==0.15.0
+XlsxWriter==3.0.3
 zipp==3.6.0

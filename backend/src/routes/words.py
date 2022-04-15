@@ -7,8 +7,11 @@ from src.schemas import status as s_schemas
 @app.post("/words/list", tags=["Words"], response_model=w_schemas.WordsListResponse)
 def list_words(search_filter: w_schemas.WordFilter = Body(..., embed=True), db: Session = Depends(get_db)):
     words, total_words = w_cruds.get_words(db, search_filter)
-    print(words)
     return w_schemas.WordsListResponse(words=words, total_words=total_words)
+
+@app.post("/words/xlsx", tags=["Words"])
+def generate_words_xlsx_file(search_filter: w_schemas.WordFilter = Body(..., embed=True), db: Session = Depends(get_db)):
+    w_cruds.generate_words_xlsx(db, search_filter)
 
 @app.post("/word/register", tags=["Words"], response_model=s_schemas.StatusModel)
 def register_word(user_id: int, word: w_schemas.WordBase = Body(..., embed=True), db: Session = Depends(get_db)):

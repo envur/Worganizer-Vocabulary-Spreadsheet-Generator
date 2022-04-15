@@ -1,6 +1,7 @@
 from .imports import *
 from src.models import words as w_model
 from src.schemas import words as w_schemas
+from src.services import xlsx_generator
 from sqlalchemy.sql.expression import asc, desc
 
 
@@ -59,7 +60,7 @@ def get_words(db: Session, search_filter: w_schemas.WordFilter):
         limit = int(filter.limit)
 
     if search_filter.order:
-        order = desc
+        order = asc
 
     if search_filter.sort and search_filter.sort in w_model.Words.__table__.columns:
         sort = search_filter.sort
@@ -107,3 +108,7 @@ def delete_word(db: Session, word_id: int):
         db.commit()
     except:
         raise exc.INTERNAL_ERROR_EXCEPTION
+
+def generate_words_xlsx(db: Session, search_filter: w_schemas.WordFilter):
+    words = get_words(db, search_filter)
+    xlsx_generator.xlsx_generator(words[0])
